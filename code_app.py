@@ -46,13 +46,13 @@ if st.button("Generate Code"):
         st.success("Code generated!")
         st.code(f"# {language} code will appear here\n# {prompt}")
 
-    if user_prompt:
-    # Show user message
-    st.session_state.messages.append(
-        {"role": "user", "content": user_prompt}
-    )
-    with st.chat_message("user"):
-        st.markdown(user_prompt)
+if user_prompt:
+# Show user message
+st.session_state.messages.append(
+    {"role": "user", "content": user_prompt}
+)
+with st.chat_message("user"):
+    st.markdown(user_prompt)
     # Gemini response
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):

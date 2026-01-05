@@ -16,22 +16,10 @@ genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 # Page config
-st.set_page_config(page_title="Gemini Chat", page_icon="🤖")
-st.title("🤖Smart CG")
+st.set_page_config(page_title="Gemini Code generator", page_icon="🤖")
+st.title("🧠Smart CG")
 st.write("Describe the code you want, and select a programming language.")
 
-prompt = st.text_area("Describe your code:")
-language = st.selectbox(
-    "Choose a programming language",
-    ["Python", "JavaScript", "Java", "C++"]
-)
-
-if st.button("Generate Code"):
-    if prompt.strip() == "":
-        st.warning("Please enter a description.")
-    else:
-        st.success("Code generated!")
-        st.code(f"# {language} code will appear here\n# {prompt}")
 # Initialize chat history
 if "chat" not in st.session_state:
     st.session_state.chat = model.start_chat(history=[])
@@ -45,15 +33,26 @@ for msg in st.session_state.messages:
         st.markdown(msg["content"])
 
 # Chat input
-user_prompt = st.chat_input("Type your code...")
-if user_prompt:
+user_prompt = st.text_area("Describe your code:")
+language = st.selectbox(
+    "Choose a programming language",
+    ["Python", "JavaScript", "Java", "C++"]
+)
+
+if st.button("Generate Code"):
+    if prompt.strip() == "":
+        st.warning("Please enter a description.")
+    else:
+        st.success("Code generated!")
+        st.code(f"# {language} code will appear here\n# {prompt}")
+
+    if user_prompt:
     # Show user message
     st.session_state.messages.append(
         {"role": "user", "content": user_prompt}
     )
     with st.chat_message("user"):
         st.markdown(user_prompt)
-
     # Gemini response
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
